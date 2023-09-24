@@ -1,0 +1,103 @@
+package com.demo.controllers.admin;
+
+import java.util.List;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+
+import org.springframework.stereotype.Controller;
+
+import org.springframework.util.MimeTypeUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.demo.models.Account;
+import com.demo.models.AccountInfo;
+import com.demo.models.Answer;
+import com.demo.models.AnswerInfo;
+import com.demo.models.Classes;
+import com.demo.models.ClassesInfo;
+import com.demo.models.Exam;
+import com.demo.models.ExamInfo;
+import com.demo.services.AccountService;
+import com.demo.services.AnswerService;
+import com.demo.services.ClassesService;
+import com.demo.services.ExamService;
+
+@CrossOrigin(origins = "http://localhost:3000/")
+@RestController
+@RequestMapping("api/exam")
+public class ExamController {
+
+
+	@Autowired
+	private ExamService examService;
+	
+	
+	@RequestMapping(value = "create", method = RequestMethod.POST, consumes = MimeTypeUtils.APPLICATION_JSON_VALUE, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> create(@RequestBody Exam exam) {
+		try {
+			
+			return new ResponseEntity<Object>(new Object() {
+				public boolean result = examService.save(exam);
+			}, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@RequestMapping(value = "update", method = RequestMethod.PUT, consumes = MimeTypeUtils.APPLICATION_JSON_VALUE, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> update(@RequestBody Exam exam) {
+		try {
+			
+			return new ResponseEntity<Object>(new Object() {
+				public boolean result = examService.save(exam);
+			}, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	@RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE,  produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> delete(@PathVariable int id) {
+		try {
+			
+			return new ResponseEntity<Object>(new Object() {
+				public boolean result = examService.delete(id);
+			}, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@RequestMapping(value = "findAllExam", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ExamInfo>> findAllClasses() {
+		try {
+			return new ResponseEntity<List<ExamInfo>>(examService.findAll(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<ExamInfo>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	@RequestMapping(value = "find/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ExamInfo> find(@PathVariable int id) {
+		try {
+			return new ResponseEntity<ExamInfo>(examService.find(id), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<ExamInfo>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
+	
+
+}
